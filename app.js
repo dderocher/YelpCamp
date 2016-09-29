@@ -131,7 +131,9 @@ app.use(function(req, res, next) {
 //     Comment = require("./models/comment");
 
 // Build the connection string 
-var dbURI = 'mongodb://localhost/yelpcamp-v' + serverVersion;
+//var dbURI = 'mongodb://localhost/yelpcamp-v' + serverVersion;
+
+var dbURI =  'mongodb://dderocher:dderocher@ds047146.mlab.com:47146/yelpcamp';
 
 // Create the database connection
 mongoose.connect(dbURI);
