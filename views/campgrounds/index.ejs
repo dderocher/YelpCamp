@@ -1,0 +1,60 @@
+<% include ../partials/header %>
+
+<!-- comment -->
+
+
+<!-- add bootstrap container -->
+<div class="container">
+    
+    <!-- header similar to div but diff semantic meaning -->
+    <header class="jumbotron">
+        
+        <!-- This container div will help us wiht border spacing when we 
+             shrink the page down.    
+        -->
+        <div class='container'>
+            <h1>Campgrounds</h1>
+            <p>Choice Campgrounds from all over the World</p>
+            <p>
+                <a class="btn btn-primary btn-large" href="/campgrounds/new">Add New Campground</a>
+            </p>
+        </div>
+    </header>
+    
+    <!--The Flexbox Layout (Flexible Box) module aims at providing a more 
+        efficient way to lay out, align and distribute space among items 
+        in a container, even when their size is unknown and/or dynamic.
+        The main idea behind the flex layout is to give the container the 
+        ability to alter its items' width/height (and order) to best fill 
+        the available space (mostly to accommodate to all kind of display 
+        devices and screen sizes). A flex container expands items to fill 
+        available free space, or shrinks them to prevent overflow.
+    -->
+    <div class="row text-center" style="display:flex ; flex-wrap:wrap;">
+        
+        <% campgrounds.forEach(function(campground){ %>
+            <!-- creates diff spacing as we shrink down in scree size-->
+            <div class="col-md-3 col-sm-6">  
+                <!-- Interesting class, creats a nice frame -->
+                <div class="thumbnail">
+                    <img src="<%=campground.image%>"></img>
+                    <div class="caption">
+                        <h4><%=campground.name%></h4> 
+                    </div>
+                    <p>
+                        <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">More Info</a>
+                    </p>
+                </div>
+            </div>  
+        <% });%>
+    
+    </div>
+    
+    <div>
+        <br>
+        <a href="/">Back</a>
+    </div>
+
+</div>
+
+<% include ../partials/footer %>
