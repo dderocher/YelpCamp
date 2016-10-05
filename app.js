@@ -9,10 +9,6 @@ var express        = require("express"),
     methodOverride = require("method-override")
 ;
 
-/*Test Data requirements*/
-var createTestData = true,
-    seedDB         = require("./seeds");
-
 /*SESSION/Auth requirements*/
 var passport              = require("passport"),
     localStrategy         = require("passport-local"),
@@ -23,6 +19,31 @@ var passport              = require("passport"),
 var indexRoutes      = require("./routes/index.js"),
     campGroundRoutes = require("./routes/campgrounds.js"),
     commentRoutes    = require("./routes/comments.js");
+
+
+//--------------------------------------------
+// Setup config vars from environment
+//---------------------------------------------
+var envPath= process.env.APP_ENVFILE_DIR + '/YelpCamp/.env';
+
+require('dotenv').config({silent: true, path: envPath  });
+
+/* Env var need setup here */
+var dbURI            = process.env.DATABASEURL,
+    sessionSecretKey = process.env.SESSIONSECRETKEY,
+    envTestData      = process.env.CREATETESTDATA
+;
+
+
+/*Test Data requirements*/
+var createTestData = false,
+    seedDB         = require("./seeds");
+
+if (envTestData === 'YES')
+{
+    createTestData = true;
+}
+
 
 
 //--------------------------------------------
@@ -58,7 +79,7 @@ var expressSession = require("express-session");
 
 /* Plug express-session into express*/
 app.use(expressSession({
-    secret: "my encryption key",
+    secret: sessionSecretKey,
     resave: false,
     saveUninitialized: false
 }));
@@ -133,7 +154,6 @@ app.use(function(req, res, next) {
 // Build the connection string 
 //var dbURI = 'mongodb://localhost/yelpcamp-v' + serverVersion;
 
-var dbURI =  'mongodb://dderocher:dderocher@ds047146.mlab.com:47146/yelpcamp';
 
 // Create the database connection
 mongoose.connect(dbURI);
@@ -141,7 +161,7 @@ mongoose.connect(dbURI);
 //***** CONNECTION EVENTS 
 // When successfully connected...
 mongoose.connection.on('connected', function() {
-    console.log('Mongoose default connection open to ' + dbURI);
+    console.log('Mongoose default connection open...');
 });
 
 // If the connection throws an error
